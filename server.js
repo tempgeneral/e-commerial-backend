@@ -23,6 +23,9 @@ app.get('/upload_Categories', (req, res) => {
         console.log(err)
     })
 })
+app.get('/', (req, res) => {
+res.send("you are welcome")
+})
 
 app.post("/upload_Categories", (req, res) => {
     const { selectedOption,
