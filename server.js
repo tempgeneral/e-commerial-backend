@@ -23,6 +23,24 @@ app.get('/upload_Categories', (req, res) => {
         console.log(err)
     })
 })
+app.post('/upload_Categories/delete', (req, res) => {
+// console.log(req.body)
+const {id} = req.body
+
+    databaseSchema.findOneAndDelete({_id:id})
+    .then((user) => {
+        if (user){
+            console.log("item deleted")
+        }
+        else {
+            console.log("item does not exist")
+        }
+    
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+})
 app.get('/', (req, res) => {
 res.send("you are welcome")
 })
