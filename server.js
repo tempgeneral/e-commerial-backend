@@ -6,6 +6,10 @@ const axios = require("axios")
 require("./config/db")
 const databaseSchema = require("./Model/Project")
 const cors = require('cors');
+const options = require('./Data/Categories')
+
+
+
 
 
 const PORT = process.env.PORT || 4000
@@ -22,6 +26,9 @@ app.get('/upload_Categories', (req, res) => {
     }).catch((err) => {
         console.log(err)
     })
+})
+app.get('/Categories', (req, res) => {
+res.json(options)
 })
 app.post('/upload_Categories/delete', (req, res) => {
 // console.log(req.body)
