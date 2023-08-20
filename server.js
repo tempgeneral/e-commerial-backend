@@ -44,7 +44,14 @@ app.post('/Order', (req, res) => {
     })
     .catch((err) => console.log("there was an error while trying to upload the code"))
 
+   
 })
+
+app.get('/Order', (req, res) => {
+    res.send("you are welcome ORDER")
+    })
+
+
 app.post('/upload_Categories/delete', (req, res) => {
 // console.log(req.body)
 const {id} = req.body
@@ -64,7 +71,7 @@ const {id} = req.body
     })
 })
 app.get('/', (req, res) => {
-res.send("you are welcome")
+res.send("you are welcome sdd")
 })
 
 app.post("/upload_Categories", (req, res) => {
