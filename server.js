@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const axios = require("axios")
 require("./config/db")
 const databaseSchema = require("./Model/Project")
+const OrderSchema = require('./Model/Order')
 const cors = require('cors');
 const options = require('./Data/Categories')
 
@@ -29,6 +30,20 @@ app.get('/upload_Categories', (req, res) => {
 })
 app.get('/Categories', (req, res) => {
 res.json(options)
+})
+app.post('/Order', (req, res) => {
+  
+    const {cart} = req.body;
+    const NewProduct = new OrderSchema({
+      Order:cart
+    })
+    NewProduct.save({})
+    .then(() => {
+        console.log("it was successfully saved")
+        res.send("you are welcome")
+    })
+    .catch((err) => console.log("there was an error while trying to upload the code"))
+
 })
 app.post('/upload_Categories/delete', (req, res) => {
 // console.log(req.body)
@@ -58,7 +73,7 @@ app.post("/upload_Categories", (req, res) => {
         descriptionFields,
         TitleFields,
         priceFields,
-        downloadUrls, } = req.body;
+        downloadUrls } = req.body;
 
 
     const NewProduct = new databaseSchema({
