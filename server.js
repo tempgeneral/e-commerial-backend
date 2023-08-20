@@ -48,7 +48,11 @@ app.post('/Order', (req, res) => {
 })
 
 app.get('/Order', (req, res) => {
-    res.send("you are welcome ORDER")
+    OrderSchema.find().then((user) => {
+        res.json(user)
+    }).catch((err) => {
+        console.log(err)
+    })
     })
 
 
@@ -72,6 +76,9 @@ const {id} = req.body
 })
 app.get('/', (req, res) => {
 res.send("you are welcome sdd")
+})
+app.post('/profileSignUp', (req, res) => {
+    console.log(req.body)
 })
 
 app.post("/upload_Categories", (req, res) => {
