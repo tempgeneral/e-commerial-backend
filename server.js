@@ -8,6 +8,7 @@ const databaseSchema = require("./Model/Project")
 const OrderSchema = require('./Model/Order')
 const cors = require('cors');
 const options = require('./Data/Categories')
+const ProfileSchema = require('./Model/Profile')
 
 
 
@@ -78,7 +79,27 @@ app.get('/', (req, res) => {
 res.send("you are welcome sdd")
 })
 app.post('/profileSignUp', (req, res) => {
-    console.log(req.body)
+    const   {firstName,
+    lastName,
+    phoneNumber,
+    email } = req.body
+
+    const NewProfile = new ProfileSchema({
+        firstName: firstName,
+        lastName:lastName,
+        phoneNumber:phoneNumber,
+        email:email
+    })
+
+    NewProfile.save({})
+        .then(() => {
+            console.log("it was successfully saved")
+            res.send("you are welcome")
+        })
+        .catch((err) => console.log("there was an error while trying to upload the code"))
+
+
+   
 })
 
 app.post("/upload_Categories", (req, res) => {
