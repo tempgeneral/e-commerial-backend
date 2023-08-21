@@ -80,8 +80,10 @@ app.post('/upload_Categories/delete', (req, res) => {
             console.log(err)
         })
 })
-app.get('/', (req, res) => {
+app.get('/',async (req, res) => {
     res.send("you are welcome sdd")
+    const profileWithOrders = await ProfileSchema.findById("64e382e4517cff20f1ab4234").populate('orders');
+console.log(profileWithOrders.orders); // Array of associated orders
 })
 app.get('/profileSignUp', (req, res) => {
     ProfileSchema.find().then((user) => {
