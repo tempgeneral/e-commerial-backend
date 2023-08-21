@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const axios = require("axios")
 require("./config/db")
 const databaseSchema = require("./Model/Project")
-const OrderSchema = require('./Model/Order')
+const Order = require('./Model/Order')
 const cors = require('cors');
 const options = require('./Data/Categories')
 const ProfileSchema = require('./Model/Profile')
@@ -34,17 +34,22 @@ app.get('/Categories', (req, res) => {
 })
 app.post('/Order', (req, res) => {
 
-    const { cart } = req.body;
-    const NewProduct = new OrderSchema({
-        Order: cart
-    })
-    NewProduct.save({})
+    const { cart, id } = req.body;
+    const newOrder = new Order({
+        Order: cart,profile:id
+      });
+    
+      // Save the new order
+      newOrder
+        .save()
         .then(() => {
-            console.log("it was successfully saved")
-            res.send("you are welcome")
+          console.log("Order was successfully saved");
+          res.status(201).send("Order was successfully saved");
         })
-        .catch((err) => console.log("there was an error while trying to upload the code"))
-
+        .catch((err) => {
+          console.error("Error while trying to save the order:", err);
+          res.status(500).send("An error occurred while saving the order");
+        });
 
 })
 
