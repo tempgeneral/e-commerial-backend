@@ -4,12 +4,12 @@ const dotenv = require('dotenv').config()
 const mongoose = require("mongoose");
 const axios = require("axios")
 require("./config/db")
-const databaseSchema = require("./Model/Project")
-const Order = require("./Model/Order")
 const cors = require('cors');
 const options = require('./Data/Categories')
 const ProfileSchema = require('./Model/Profile')
-
+const Order = require('./Routes/Order')
+const Profile = require('./Routes/Profile')
+const Categories = require('./Routes/Categories')
 
 
 
@@ -20,131 +20,48 @@ app.use(express.json()); // For parsing JSON data in request bodies
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-app.get('/upload_Categories', (req, res) => {
 
-
-    databaseSchema.find().then((user) => {
-        res.json(user)
-    }).catch((err) => {
-        console.log(err)
-    })
-})
 app.get('/Categories', (req, res) => {
     res.json(options)
 })
-app.post('/Order', (req, res) => {
 
-    const { cart, id } = req.body;
-    const newOrder = new Order({
-        Order: cart,profile:id
-      });
-    
-      // Save the new order
-      newOrder
-        .save()
-        .then(() => {
-          console.log("Order was successfully saved");
-          res.status(201).send("Order was successfully saved");
-        })
-        .catch((err) => {
-          console.error("Error while trying to save the order:", err);
-          res.status(500).send("An error occurred while saving the order");
-        });
+app.use("/", Order)
+app.use("/", Profile)
+app.use("/", Categories)
 
+
+
+app.get('/Profile0rders',async (req, res) => {
+
+    try {
+        // // const profileWithOrdersArray = await ProfileSchema.find({}).populate('PersonalDetails');
+        // // res.status(200).json(profileWithOrdersArray); 
+        // const profileWithOrdersArray = await ProfileSchema.find({}).populate('orders');
+        // for (const profileWithOrders of profileWithOrdersArray) {
+        //   console.log(profileWithOrders.orders); // Array of associated orders for each profile
+        // }
+
+        const profileWithOrdersArrays = await ProfileSchema.find({}).populate('orders');
+
+// Create an array of profiles with associated orders
+const profilesWithOrders = profileWithOrdersArrays.map(profile => {
+  return {
+    ...profile.toObject(), // Convert Mongoose document to plain object
+    orders: profile.orders.map(order => order.toObject()) // Convert order documents to plain objects
+  };
+});
+res.status(200).json(profilesWithOrders); 
+
+
+        
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+      }
 })
 
-app.get('/Order', (req, res) => {
-    OrderSchema.find().then((user) => {
-        res.json(user)
-    }).catch((err) => {
-        console.log(err)
-    })
-})
 
 
-app.post('/upload_Categories/delete', (req, res) => {
-    // console.log(req.body)
-    const { id } = req.body
-
-    databaseSchema.findOneAndDelete({ _id: id })
-        .then((user) => {
-            if (user) {
-                console.log("item deleted")
-            }
-            else {
-                console.log("item does not exist")
-            }
-
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-})
-app.get('/',async (req, res) => {
-    res.send("you are welcome sdd")
-    const profileWithOrders = await ProfileSchema.findById("64e382e4517cff20f1ab4234").populate('orders');
-console.log(profileWithOrders.orders); // Array of associated orders
-})
-app.get('/profileSignUp', (req, res) => {
-    ProfileSchema.find().then((user) => {
-        res.json(user)
-    }).catch((err) => {
-        console.log(err)
-    })
-})
-app.post('/profileSignUp', (req, res) => {
-    const { firstName,
-        lastName,
-        phoneNumber,
-        email } = req.body
-
-    const NewProfile = new ProfileSchema({
-        firstName: firstName,
-        lastName: lastName,
-        phoneNumber: phoneNumber,
-        email: email
-    })
-
-    NewProfile.save({})
-        .then(() => {
-            console.log("it was successfully saved")
-            res.send("you are welcome")
-        })
-        .catch((err) => console.log("there was an error while trying to upload the code"))
-
-
-
-})
-
-app.post("/upload_Categories", (req, res) => {
-    const { selectedOption,
-        subselectedOption,
-        descriptionFields,
-        TitleFields,
-        priceFields,
-        downloadUrls } = req.body;
-
-
-    const NewProduct = new databaseSchema({
-        Categories: selectedOption,
-        SubCategories: subselectedOption,
-        Description: descriptionFields,
-        Title: TitleFields,
-        Price: priceFields,
-        Images: downloadUrls
-    })
-
-    NewProduct.save({})
-        .then(() => {
-            console.log("it was successfully saved")
-            res.send("you are welcome")
-        })
-        .catch((err) => console.log("there was an error while trying to upload the code"))
-
-
-
-    res.send('your are welcome')
-})
 
 
 
