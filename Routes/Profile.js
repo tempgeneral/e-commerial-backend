@@ -36,6 +36,8 @@ router.post('/profileSignUp', (req, res) => {
 
 router.put("/UpdateProfile", async (req, res) => {
     const { id, imageUri } = req.body;
+
+ 
   
     try {
       // Find the profile by ID and update the imageUri field
