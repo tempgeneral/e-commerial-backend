@@ -6,6 +6,7 @@ const ProfileSchema = new Schema({
   lastName: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   email: { type: String, required: true },
+  imageUri: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 

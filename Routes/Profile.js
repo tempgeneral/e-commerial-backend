@@ -13,13 +13,14 @@ router.post('/profileSignUp', (req, res) => {
     const { firstName,
         lastName,
         phoneNumber,
-        email } = req.body
+        email , imageUri} = req.body
 
     const NewProfile = new ProfileSchema({
         firstName: firstName,
         lastName: lastName,
         phoneNumber: phoneNumber,
-        email: email
+        email: email, 
+        imageUri:imageUri
     })
 
     NewProfile.save({})
@@ -33,7 +34,27 @@ router.post('/profileSignUp', (req, res) => {
 
 })
 
-
+router.put("/UpdateProfile", async (req, res) => {
+    const { id, imageUri } = req.body;
+  
+    try {
+      // Find the profile by ID and update the imageUri field
+      const updatedProfile = await ProfileSchema.findByIdAndUpdate(
+        id,
+        { imageUri: imageUri },
+        { new: true } // Return the updated document
+      );
+  
+      if (!updatedProfile) {
+        return res.status(404).json({ error: "Profile not found" });
+      }
+  
+      res.json(updatedProfile);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
 
 
 module.exports =  router

@@ -24,6 +24,9 @@ app.use(cors());
 app.get('/Categories', (req, res) => {
     res.json(options)
 })
+app.get('/', (req, res) => {
+    res.json(options)
+})
 
 app.use("/", Order)
 app.use("/", Profile)
@@ -59,6 +62,7 @@ res.status(200).json(profilesWithOrders);
         res.status(500).json({ message: "Internal server error" });
       }
 })
+
 
 
 
