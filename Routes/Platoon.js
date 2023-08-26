@@ -38,12 +38,14 @@ router.get('/Plantoon', (req, res) => {
 router.post('/PlantoonDelete', (req, res) => {
   const {id} = req.body;
     Plantoon.findOneAndDelete({_id:id})
-    .then((res)=>{
-      console.log("it was successful deleted")
+    .then(() => {
+      console.log("Order was successfully deleted");
+      res.status(201).send("Order was successfully deleted");
     })
-    .catch((err)=>{
-      console.log(err)
-    })
+    .catch((err) => {
+      console.error("Error while trying to deleted the order:", err);
+      res.status(500).send("An error occurred while deleted the order");
+    });
 })
 
 
