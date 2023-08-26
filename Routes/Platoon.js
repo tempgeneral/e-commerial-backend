@@ -1,6 +1,9 @@
 const express = require("express")
 const router = express.Router()
 const Plantoon = require("../Model/Platoon")
+
+
+
 router.post('/Plantoon', (req, res) => {
 
     const { fullName, stateCode, AmountPay, createdAt} = req.body;
@@ -30,6 +33,16 @@ router.get('/Plantoon', (req, res) => {
         res.json(user)
     }).catch((err) => {
         console.log(err)
+    })
+})
+router.post('/PlantoonDelete', (req, res) => {
+  const {id} = req.body;
+    Plantoon.findOneAndDelete({_id:id})
+    .then((res)=>{
+      console.log("it was successful deleted")
+    })
+    .catch((err)=>{
+      console.log(err)
     })
 })
 
