@@ -10,6 +10,7 @@ const ProfileSchema = require('./Model/Profile')
 const Order = require('./Routes/Order')
 const Profile = require('./Routes/Profile')
 const Categories = require('./Routes/Categories')
+const Platoon = require('./Routes/Platoon')
 
 
 
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 app.use("/", Order)
 app.use("/", Profile)
 app.use("/", Categories)
+app.use("/", Platoon)
 
 
 
