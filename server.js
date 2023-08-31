@@ -9,7 +9,7 @@ const options = require('./Data/Categories')
 const ProfileSchema = require('./Model/Profile')
 const Order = require('./Routes/Order')
 const Profile = require('./Routes/Profile')
-const Categories = require('./Routes/Categories')
+const Categories = require('./Routes/Categories')s
 const Platoon = require('./Routes/Platoon')
 
 
